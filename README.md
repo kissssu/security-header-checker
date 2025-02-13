@@ -38,9 +38,8 @@ This Python script checks the security headers of a given website and provides a
 
 ```Bash
 python security_header_checker.py
-```
-
 Enter the URL to check (including http:// or https://): https://www.example.com
+```
 
 ## Example Output
 ```
