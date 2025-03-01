@@ -28,7 +28,7 @@ This Python script checks the security headers of a given website and provides a
 1.  Clone the repository (or download the script):
 
     ```bash
-    git clone [https://github.com/kissssu/security-header-checker.git](https://github.com/kissssu/security-header-checker.git)
+    git clone https://github.com/kissssu/security-header-checker.git
     cd security-header-checker
     ```
 
