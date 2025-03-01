@@ -9,7 +9,7 @@ SECURITY_HEADERS = {
     "X-Frame-Options": True,
     "X-Content-Type-Options": True,
     "Referrer-Policy": True,
-    "Permissions-Policy": False,  # Optional
+    "Permissions-Policy": False,
 }
 
 def check_security_headers(url):
@@ -65,10 +65,15 @@ def check_security_headers(url):
         return None
 
 if __name__ == "__main__":
-    url = input("Enter the URL to check (including http:// or https://): ")
+    user_input = input("Enter the URL to check (e.g., example.com): ")
+
+    if not user_input.startswith(('http://', 'https://')):
+        url = f"https://{user_input}"  # Default to HTTPS
+    else:
+        url = user_input
 
     parsed_url = urlparse(url)
-    if not parsed_url.scheme:
-        print("Invalid URL. Please include http:// or https://")
+    if not parsed_url.netloc:
+        print("Invalid URL.")
     else:
         check_security_headers(url)
