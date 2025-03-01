@@ -2,6 +2,8 @@
 
 import requests
 from urllib.parse import urlparse
+import time
+import argparse
 
 SECURITY_HEADERS = {
     "Content-Security-Policy": True,
@@ -12,7 +14,7 @@ SECURITY_HEADERS = {
     "Permissions-Policy": False,
 }
 
-def check_security_headers(url):
+def check_security_headers(url, verbose=False):
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -28,6 +30,9 @@ def check_security_headers(url):
                 total_required += 1
                 if header in headers:
                     present_count += 1
+                    if verbose:
+                        print(f"- {header}: {headers[header]}")
+                        time.sleep(0.1)  # Pause for 0.1 seconds
                 else:
                     missing_headers.append(header)
             else:
@@ -65,15 +70,18 @@ def check_security_headers(url):
         return None
 
 if __name__ == "__main__":
-    user_input = input("Enter the URL to check (e.g., example.com): ")
+    parser = argparse.ArgumentParser(description="Check security headers of a URL.")
+    parser.add_argument("url", help="The URL to check.")
+    parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output with pauses.")
+    args = parser.parse_args()
 
-    if not user_input.startswith(('http://', 'https://')):
-        url = f"https://{user_input}"  # Default to HTTPS
-    else:
-        url = user_input
+    url = args.url
+
+    if not url.startswith(('http://', 'https://')):
+        url = f"https://{url}"
 
     parsed_url = urlparse(url)
     if not parsed_url.netloc:
         print("Invalid URL.")
     else:
-        check_security_headers(url)
+        check_security_headers(url, args.verbose)
