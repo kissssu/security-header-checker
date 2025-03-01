@@ -16,7 +16,7 @@ This Python script checks the security headers of a given website and provides a
 * Identifies the amount of optional headers present.
 * Handles network errors and other exceptions gracefully.
 * Clear and informative output for improved readability.
-* Basic command-line argument support for specifying the URL.
+* **User-friendly URL input: No need to specify `http://` or `https://`. The script automatically adds `https://` by default.**
 
 ## Requirements
 
@@ -38,10 +38,12 @@ This Python script checks the security headers of a given website and provides a
     python security_header_checker.py
     ```
 
+3.  When prompted, enter the website's domain name (e.g., `example.com`). You do not need to include `http://` or `https://`.
+
 ## Example Output
 ```
-Enter the URL to check (including http:// or https://): https://www.google.com/
-Security Header Check for: https://www.google.com/
+Enter the URL to check (e.g., example.com): google.com
+Security Header Check for: https://google.com
 ----------------------------------------
 Present Security Headers: 1 / 5
 
@@ -78,10 +80,12 @@ SECURITY_HEADERS = {
 ```
 
 ## Key Improvements
+
 - **Simplified Header List**: The SECURITY_HEADERS dictionary is now used to define required and optional headers.
 - **Accurate Percentage Calculation**: The score is now a percentage based on the presence of required headers.
 - **Clearer Output**: The output clearly shows the number of present, missing, and optional headers.
 - **Focused Functionality**: The script now strictly focuses on checking the presence of headers from the given list.
+- **Enhanced User Experience**: Users can now enter the domain without specifying the protocol.
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request.
