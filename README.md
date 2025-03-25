@@ -1,105 +1,128 @@
 # Security Header Checker
 
-This Python script checks the security headers of a given website and provides a percentage-based score based on the presence of crucial security headers. It identifies missing and present headers, offering insights into the website's security posture.
+## Basic Info
+
+This Python script, `security_header_checker.py`, is a command-line tool designed to analyze the HTTP security headers of a given website. It checks for the presence of several recommended security headers and provides a summary of the findings, including a security score and a rating.
+
+*(Privet! This is a simple program to check website security. - Привет! Это простая программа для проверки безопасности веб-сайта.)*
 
 ## Features
 
-* Checks for the presence of essential security headers, including:
-    * `Content-Security-Policy` (CSP)
+* Checks for the presence of the following security headers:
     * `Strict-Transport-Security` (HSTS)
+    * `Content-Security-Policy` (CSP)
     * `X-Frame-Options`
     * `X-Content-Type-Options`
     * `Referrer-Policy`
-    * `Permissions-Policy` (optional)
-* Provides a security score as a percentage based on the presence of required headers.
-* Identifies missing security headers.
-* Identifies the amount of optional headers present.
-* Handles network errors and other exceptions gracefully.
-* Clear and informative output for improved readability.
-* **User-friendly URL input: No need to specify `http://` or `https://`. The script automatically adds `https://` by default.**
-* **Verbose mode:** Displays the value of present security headers and adds a slight pause to output for better readability. Activated with the `-v` or `--verbose` flag.
+    * `Permissions-Policy`
+* Provides a count of present and missing security headers.
+* Displays details of the present security headers.
+* Calculates a percentage-based security score.
+* Offers a simple rating of the website's security header configuration.
+* Prints raw HTTP headers for detailed inspection.
+* Verbose output option to show each present header during the check.
+* Handles basic HTTP and HTTPS URLs.
+* Includes informational notes about each security header.
 
 ## Requirements
 
-* Python 3.x
-* `requests` library (Install with: `pip install requests`)
+* Python 3.6 or higher.
+* The `requests` library. You can install it using pip:
+    ```bash
+    pip install requests
+    ```
 
 ## How to Use
 
-1.  Clone the repository (or download the script):
+1.  **Save the script:** Save the provided Python code as `security_header_checker.py`.
+2.  **Open your terminal or command prompt.**
+3.  **Navigate to the directory** where you saved the script.
+4.  **Run the script** with the URL of the website you want to check as an argument.
 
     ```bash
-    git clone https://github.com/kissssu/security-header-checker.git
+    python3 security_header_checker.py <URL>
     ```
 
-2.  Run the script:
+    Replace `<URL>` with the actual URL of the website (e.g., `https://example.com`).
+
+5.  **Optional verbose output:** To see each present header and its value during the check, use the `-v` or `--verbose` flag:
 
     ```bash
-    python security_header_checker.py <url>
+    python3 security_header_checker.py [https://example.com](https://example.com) -v
     ```
 
-    Replace `<url>` with the website's domain name (e.g., `google.com`). You do not need to include `http://` or `https://`.
+*(Kak ispol'zovat'? Prosto vvedite 'python3 security_header_checker.py' i adres sayta. - Как использовать? Просто введите 'python3 security_header_checker.py' и адрес сайта.)*
 
-3.  To use verbose mode, add the `-v` or `--verbose` flag:
-
-    ```bash
-    python security_header_checker.py -v <url>
-    ```
-
-    or
-
-    ```bash
-    python security_header_checker.py --verbose <url>
-    ```
-
-## Example Output (Normal Mode)
+## Example Output
 ```
-- X-Frame-Options: SAMEORIGIN
-Security Header Check for: https://google.com
-----------------------------------------
-Present Security Headers: 1 / 5
+Security Header Check for: https://example.com
+Present Security Headers: 3 / 6
+
+Present Header Details:
+Strict-Transport-Security: max-age=31536000
+Content-Security-Policy: default-src 'self'
+X-Frame-Options: SAMEORIGIN
 
 Missing Security Headers:
-- Content-Security-Policy
-- Strict-Transport-Security
-- X-Content-Type-Options
-- Referrer-Policy
+X-Content-Type-Options
+Referrer-Policy
+Permissions-Policy
+Security Score: 50.00%
 
-Optional Headers present: 0
+Informational Notes:
+Strict-Transport-Security (HSTS) ensures browsers only connect via HTTPS.
+Content-Security-Policy (CSP) controls resources a browser is allowed to load.
+X-Frame-Options prevents clickjacking attacks.
+X-Content-Type-Options prevents MIME sniffing.
+Referrer-Policy controls how much referrer information is sent.
+Permissions-Policy controls browser features available to the site.
+Higher Security Score indicates better security posture.
+Site's Security Header Rating:
 
-Security Score: 20.00%
-----------------------------------------
+Meh, it's alright. They're missing some key headers. Needs a bit of work.
+
+Raw Headers:
+Content-Type: text/html; charset=UTF-8
+Date: Tue, 25 Mar 2025 13:03:00 GMT
+Server: Example Server
+Strict-Transport-Security: max-age=31536000
+Content-Security-Policy: default-src 'self'
+X-Frame-Options: SAMEORIGIN
+Accept-Ranges: bytes
+Connection: close
 ```
 
 ## Explanation of Output
 
-* **Present Security Headers**: Displays the count of present *required* security headers out of the total required headers.
-* **Missing Security Headers**: Lists the *required* security headers that were not present.
-* **Optional Headers present**: Displays the count of optional headers that were present.
-* **Security Score**: A percentage indicating the overall security posture based on the presence of required headers.
-* **Verbose Mode**: Includes the value of each present header and adds a slight pause in output.
+* **Security Header Check for: `<URL>`:** The URL that was analyzed.
+* **Present Security Headers: `<count>` / `<total>`:** The number of security headers found out of the total number the script checks for.
+* **Present Header Details:** Lists each security header that was found in the website's response headers and its corresponding value. If no security headers from the defined list are present, it will show "None".
+* **Missing Security Headers:** Lists the security headers from the defined list that were not found in the website's response headers. If all security headers are present, it will show "None".
+* **Security Score: `<percentage>%`:** A calculated percentage representing the ratio of present security headers to the total number of checked headers. *(Etot ochen' vazhno! Vysshiy ball oznachayet lutchshuyu zashchitu. - Это очень важно! Высший балл означает лучшую защиту.)*
+* **Informational Notes:** Provides a brief explanation of what each security header does.
+* **Site's Security Header Rating:** A simple, human-readable assessment of the website's security header configuration based on the security score.
+* **Raw Headers:** Displays all the HTTP headers returned by the server for the given URL. This can be useful for seeing other headers and verifying the security headers.
 
 ## Configuration (Optional)
 
-You can modify the `SECURITY_HEADERS` dictionary in the script to customize the headers checked and whether they are considered required or optional. This allows you to tailor the script to your specific requirements. For example:
+The `SECURITY_HEADERS` dictionary in the script defines the security headers that are checked. If you want to add or remove headers from the check, you can modify this dictionary. The keys of the dictionary are the header names as they appear in the HTTP response, and the values are the human-readable names used in the output.
 
 ```python
 SECURITY_HEADERS = {
-    "Content-Security-Policy": True, #Required
-    "Strict-Transport-Security": True, #Required
-    "Permissions-Policy": False, #Optional
-    # ...
+    "Strict-Transport-Security": "Strict-Transport-Security",
+    "Content-Security-Policy": "Content-Security-Policy",
+    # Add or remove headers as needed
 }
 ```
 
 ## Key Improvements
-- **Simplified Header List**: The SECURITY_HEADERS dictionary is now used to define required and optional headers.
-- **Accurate Percentage Calculation**: The score is now a percentage based on the presence of required headers.
-- **Clearer Output**: The output clearly shows the number of present, missing, and optional headers.
-- **Focused Functionality**: The script now strictly focuses on checking the presence of headers from the given list.
-- **Enhanced User Experience**: Users can now enter the domain without specifying the protocol.
-- **Added Verbose Mode**: Users can now see the values of present headers and improve readability with the verbose flag.
-Co
 
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request.
+This script provides a basic but useful way to quickly assess a website's security header configuration. Potential improvements could include:
+- **More detailed analysis of header values**: Instead of just checking for presence, the script could analyze the values of the headers (e.g., checking the max-age in HSTS or the directives in CSP).
+- **Integration with online databases or best practices**: The script could be enhanced to compare the found headers against recommended configurations.
+- **Reporting in different formats**: Outputting results in JSON or other formats could be useful for automation or further analysis.
+- **Handling more complex scenarios**: Dealing with different types of redirects or error responses more robustly.
+
+## Contribution
+
+Contributions to this script are welcome! If you have suggestions for improvements or find any issues, please feel free to submit a pull request.
